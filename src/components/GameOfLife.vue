@@ -3,7 +3,7 @@
         <button v-on:click="goToTheNextMatrix">Avancer  dans le cycle</button>
         <button v-on:click="play">Play</button>
         <button v-on:click="stopTheMatrix">Stopper</button>
-        <table class="hello">
+        <table v-on:mouseup="stopChangeState" >
             <tr v-for="(line,lineNumber) in currentMatrix"
                 :key="line.index"
                 :lineNumber="line.index"
@@ -15,8 +15,7 @@
                     :test="cell.index"
 
                 v-on:mousedown="changeStateMouseDown(colNumber, lineNumber)"
-                v-on:mousemove="changeStateByMove(colNumber, lineNumber)"
-                v-on:mouseup="stopChangeState">
+                v-on:mouseover="changeStateByMove(colNumber, lineNumber)">
 
                 </td>
             </tr>
@@ -75,44 +74,27 @@
                 if (cell == true) {
                     return "black"
                 } else {
-                    return "pink"
+                    return "#eee"
                 }
             },
-            // changeState(col, row){
-            //     console.log("clic changeState ok")
-            //
-            //     if (this.currentMatrix [row][col]==true){
-            //         this.$set (this.currentMatrix [row],col,false)
-            //     } else{
-            //         this.$set (this.currentMatrix[row],col,true)
-            //     }
-            //
-            // },
             changeStateMouseDown(col, row){
                this.mouseDowned= true
                 console.log(col, row)
                 console.log("1- test mouseDown"+ this.currentMatrix [row][col]+ "mouse downed"+ this.mouseDowned)
-                if (this.currentMatrix [row][col]==true){
-                    this.$set (this.currentMatrix [row],col,false)
-                } else{
-                    this.$set (this.currentMatrix[row],col,true)
-                }
-                this.$el.addEventListener('changeStateByMove', col, row)
 
+                this.inverseCellState(col, row)
             },
-
             changeStateByMove(col, row){
 
                 if(this.mouseDowned==true){
                     console.log(col, row)
                     console.log("2 - test du mouseMove")
-                    if (this.currentMatrix [row][col]==true){
-                        this.$set (this.currentMatrix [row],col,false)
-                    } else{
-                        this.$set (this.currentMatrix[row],col,true)
-                    }
-                }
 
+                    this.inverseCellState(col, row)
+                }
+            },
+            inverseCellState(col, row){
+              this.$set (this.currentMatrix [row],col, !this.currentMatrix [row][col])
             },
             stopChangeState(){
                 console.log("3 - stop")
@@ -222,7 +204,7 @@
     }
 
     table {
-        border-spacing: 1px;
+        border-spacing: 0px;
         border-collapse: separate;
     }
 
