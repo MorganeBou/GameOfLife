@@ -19,10 +19,7 @@ export default {
 </script>
 
 <style>
-    *, ::after, ::before {
-        margin: 0;
-        padding: 0;
-        background-color: mediumspringgreen;
-
+    body{
+      margin: 0;
     }
 </style>
